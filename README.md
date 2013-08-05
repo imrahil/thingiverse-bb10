@@ -1,4 +1,4 @@
-thingivers-bb10
+thingiverse-bb10
 ===============
+Simple Thingiverse browser and STL viewer for BlackBerry 10
 
-Thingiverse for BlackBerry 10

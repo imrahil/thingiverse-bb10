@@ -34,17 +34,10 @@ config = {
   // Fires "after" styling is applied and "after" the screen is inserted in the DOM
   ondomready : function(element, id) {
 
-/*  
-    if (id === "main") {
-      if (util.isEmptyCityList) {
-        localStorage.removeItem('defaultCityID');
-        localStorage.removeItem('defaultCityName');
-        weatherData = '';
-        UIdisplay.resultsContent("No cities added. Please add a city");
-        UIdisplay.hideIndicator();
-      } else
-        app.updateWeatherData();
+    if (id === "viewer") {
+      viewer.init();
     }
+/*  
     if (id === "add") {
       document.getElementById("resetSearchButton").hide();
     }

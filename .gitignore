@@ -1,0 +1,5 @@
+/.idea
+/bin-release
+
+/app/js/oauth_config.js
+/Tviewer.iml

@@ -48,10 +48,10 @@ var screenTools = {
         menuItem = screenTools.createMenuItem('tabNewest', 'images/icons/tab1.png', 'Newest', 'view/thingsGridList.html', 'newest');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabCollections', 'images/icons/tab1.png', 'Collections', 'view/thingsGridList.html', 'collections');
+        menuItem = screenTools.createMenuItem('tabCollections', 'images/icons/tab1.png', 'Collections', 'view/listView.html', 'collections');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabCategories', 'images/icons/tab1.png', 'Categories', 'view/thingsGridList.html', 'categories');
+        menuItem = screenTools.createMenuItem('tabCategories', 'images/icons/tab1.png', 'Categories', 'view/listView.html', 'categories');
         actionBar.appendChild(menuItem);
 
         menuItem = screenTools.createMenuItem('tabTags', 'images/icons/tab1.png', 'Tags', 'view/thingsGridList.html', 'tags');
@@ -71,7 +71,18 @@ var screenTools = {
         element.appendChild(actionBar);
     },
 
-    createMenuItem : function (id, icon, label, click_target, click_id)
+    addBackBtn : function(element)
+    {
+        console.log("Adding back btn");
+
+        var actionBar = document.createElement('div');
+        actionBar.setAttribute('data-bb-type', 'action-bar');
+        actionBar.setAttribute('data-bb-back-caption', 'Back');
+
+        element.appendChild(actionBar);
+    },
+
+    createMenuItem : function (id, icon, label, click_target, click_id, params)
     {
         var menuItem = document.createElement('div');
         menuItem.setAttribute('id', id);
@@ -81,7 +92,7 @@ var screenTools = {
         menuItem.setAttribute('data-bb-img', icon);
         menuItem.innerHTML = label;
         menuItem.onclick = function() {
-            bb.pushScreen(click_target, click_id);
+            bb.pushScreen(click_target, click_id, params);
         };
 
         return menuItem;

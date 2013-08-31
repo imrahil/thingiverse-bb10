@@ -18,7 +18,7 @@ config = {
         screen.style.color = 'white';
         screen.style.fontSize = "2.5em";
 
-        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer')
+        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer' && id != 'collection-things' && id != 'categories-things')
         {
             screenTools.addTopMenu(screen);
             screenTools.addActionBar(screen);
@@ -41,9 +41,17 @@ config = {
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Collections');
                 element.getElementById('tabCollections').setAttribute('data-bb-selected', 'true');
                 break;
+            case 'collection-things':
+                screenTools.addBackBtn(screen);
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Collection things');
+                break;
             case 'categories':
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Categories');
                 element.getElementById('tabCategories').setAttribute('data-bb-selected', 'true');
+                break;
+            case 'categories-things':
+                screenTools.addBackBtn(screen);
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Category things');
                 break;
             case 'tags':
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Tags');
@@ -53,7 +61,7 @@ config = {
     },
 
     // Fires "after" styling is applied and "after" the screen is inserted in the DOM
-    ondomready: function (element, id)
+    ondomready: function (element, id, params)
     {
         switch (id) {
             case 'featured':
@@ -64,6 +72,18 @@ config = {
                 break;
             case 'newest':
                 app.getThings(element, "newest");
+                break;
+            case 'collections':
+                collections.getCollections(params);
+                break;
+            case 'collection-things':
+                app.getThings(element, "collections/" + params.id + "/things");
+                break;
+            case 'categories':
+                categories.getCategories(params);
+                break;
+            case 'categories-things':
+                app.getThings(element, params.url);
                 break;
             case 'viewer':
                 app.viewerInit();

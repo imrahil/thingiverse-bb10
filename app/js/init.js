@@ -21,9 +21,8 @@ config = {
         if (id != 'info' && id != 'settings' && id != 'search')
         {
             screenTools.addTopMenu(screen);
+            screenTools.addActionBar(screen);
         }
-
-        screenTools.addActionBar(screen);
 
         switch (id) {
             case 'featured':

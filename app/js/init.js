@@ -18,6 +18,16 @@ config = {
         screen.style['background-color'] = '#242424';
         screen.style.color = 'white';
         screen.style.fontSize = "2.5em";
+
+        switch (id) {
+            case 'featured':
+                break;
+            case 'popular':
+                break;
+            case 'newest':
+                break;
+        }
+
         /*
          // add the settings menu (swipedown menu) to each screen
          if (id != "about" && id != "settings" && id != "editcities") {
@@ -36,18 +46,19 @@ config = {
     ondomready: function (element, id)
     {
 
-        if (id === "viewer")
-        {
-            viewer.init();
-        }
-        if (id === "featured") {
-            app.getThings("featured");
-        }
-        if (id === "popular") {
-            app.getThings("popular");
-        }
-        if (id === "newest") {
-            app.getThings("newest");
+        switch (id) {
+            case 'viewer':
+                viewer.init();
+                break;
+            case 'featured':
+                app.getThings(element, "featured");
+                break;
+            case 'popular':
+                app.getThings(element, "popular");
+                break;
+            case 'newest':
+                app.getThings(element, "newest");
+                break;
         }
 
         /*
@@ -107,7 +118,7 @@ function initApp()
     // Otherwise, notify the user
     if (!window.navigator.onLine)
     {
-        showConnectionDialog();
+        bbutils.showConnectionDialog();
     }
 
     // If app is running in Emulator...

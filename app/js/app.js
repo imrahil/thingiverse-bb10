@@ -35,8 +35,11 @@ var app = {
             .done(function (data)
             {
                 console.log("Fetching success");
-                row = app.createRow(group);
+
+                document.getElementById("loadingIndicator").hide();
+
                 group = app.createGroup(grid);
+                row = app.createRow(group);
 
                 var rowCount = 1;
                 var itemCount = 1;
@@ -48,8 +51,9 @@ var app = {
                     var rowItem = document.createElement('div');
                     rowItem.setAttribute('data-bb-type', 'item');
                     rowItem.setAttribute('data-bb-img', item.thumbnail.replace('thumb_medium', 'thumb_large'));
+//                    rowItem.setAttribute('data-bb-title', (itemMax == 3) ? item.name.substr(0, 15) + '..' : item.name.substr(0, 10) + '..');
                     rowItem.setAttribute('data-bb-title', item.name);
-//                    rowItem.innerHTML = item.creator.name;
+//                    rowItem.innerHTML = item.creator.full_name;
                     row.appendChild(rowItem);
 
                     itemCount++;

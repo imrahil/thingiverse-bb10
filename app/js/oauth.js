@@ -102,7 +102,7 @@ var oAuth = {
                     localStorage.setItem("tviewerAccessToken", accessToken);
                 }
 
-                bb.pushScreen('view/featured.html', 'featured');
+                bb.pushScreen('view/thingsGridList.html', 'featured');
             })
             .fail(function (data)
             {

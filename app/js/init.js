@@ -18,7 +18,7 @@ config = {
         screen.style.color = 'white';
         screen.style.fontSize = "2.5em";
 
-        if (id != 'info' && id != 'settings' && id != 'search')
+        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer')
         {
             screenTools.addTopMenu(screen);
             screenTools.addActionBar(screen);
@@ -66,7 +66,7 @@ config = {
                 app.getThings(element, "newest");
                 break;
             case 'viewer':
-                viewer.init();
+                app.viewerInit();
                 break;
         }
     }

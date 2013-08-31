@@ -8,6 +8,7 @@ App icon and splash screen based on WebWorksWeather sample app from github - htt
 STL rendering - https://github.com/tbuser/thingiview.js
 
 Versions:
+* 0.4 - simple screens and data fetching
 * 0.3 - base STL loading
 * 0.2 - oauth skeleton
 * 0.1 - init

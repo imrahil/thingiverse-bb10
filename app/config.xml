@@ -4,29 +4,27 @@
         version="0.3.0"
         id="Tviewer">
     <name>Tviewer</name>
-    <content src="local:///index.html" />
+    <content src="local:///index.html"/>
     <author rim:copyright="2013"
             href="http://github.com/imrahil"
-            email = "imrahil@imrahil.com">Jarek Szczepanski</author>
+            email="imrahil@imrahil.com">Jarek Szczepanski
+    </author>
     <description>Simple Thingiverse browser and STL viewer for BlackBerry 10</description>
 
-    <access uri="*" subdomains="true" />
-    <access uri="http://thingiverse.com" subdomains="true" />    
-    <access uri="https://thingiverse.com" subdomains="true" />    
+    <access uri="*" subdomains="true"/>
+    <access uri="http://thingiverse.com" subdomains="true"/>
+    <access uri="https://thingiverse.com" subdomains="true"/>
 
     <icon src="images/icon.png"/>
     <rim:splash src="images/splash-1280x768.png"/>
     <rim:splash src="images/splash-720x720.png"/>
-    <feature id="blackberry.app">
-      <param name="orientation" value="portrait" />
-    </feature>
 
-    <feature id="blackberry.ui.cover" />
-    <feature id="blackberry.ui.dialog" />
-    <feature id="blackberry.ui.toast" />
-    <feature id="blackberry.ui.contextmenu"/>
-    
-    <feature id="blackberry.app" >
-        <param name="websecurity" value="disable" />
+    <feature id="blackberry.app">
+        <param name="orientation" value="portrait"/>
+        <param name="websecurity" value="disable"/>
     </feature>
+    <feature id="blackberry.ui.cover"/>
+    <feature id="blackberry.ui.dialog"/>
+    <feature id="blackberry.ui.toast"/>
+    <feature id="blackberry.ui.contextmenu"/>
 </widget>

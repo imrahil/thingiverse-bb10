@@ -7,7 +7,6 @@ config = {
     controlsDark: true,
     listsDark: true,
     highlightColor: '#00BFFF',
-    coloredTitleBar: true,
 
     // Fires "before" styling is applied and "before" the screen is inserted in the DOM
     onscreenready: function (element, id)
@@ -87,6 +86,12 @@ config = {
                 break;
             case 'viewer':
                 app.viewerInit();
+                break;
+            case 'info':
+                break;
+            case 'settings':
+                break;
+            case 'search':
                 break;
         }
     }

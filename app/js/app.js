@@ -31,61 +31,108 @@ var app = {
         grid.setAttribute('data-bb-style','square');
         grid.setAttribute('data-bb-header-justify','left');
 
-        var row;
-        var group;
+        var group = app.createGroup(grid);
+        var row = app.createRow(group);
 
-        $.getJSON(url)
-            .done(function (data)
-            {
-                console.log("Fetching success");
+        var rowCount = 1;
+        var itemCount = 1;
+        var itemMax = 3;
 
+        // Retrieve data from storage
+        var cachedObject = localStorage.getItem(type);
+
+        if (cachedObject && window[type + 'Cached'])
+        {
+            console.log('Cache object exist!');
+
+            setTimeout(function() {
                 document.getElementById("loadingIndicator").hide();
-
-                group = app.createGroup(grid);
-                row = app.createRow(group);
-
-                var rowCount = 1;
-                var itemCount = 1;
-                var itemMax = 3;
-
-                /** @var item Thing */
-                $.each(data, function (i, item)
+                createGrid(JSON.parse(cachedObject));
+            }, 50);
+        }
+        else
+        {
+            $.getJSON(url)
+                .done(function (data)
                 {
-                    var rowItem = document.createElement('div');
-                    rowItem.setAttribute('data-bb-type', 'item');
-                    rowItem.setAttribute('data-bb-img', item.thumbnail.replace('thumb_medium', 'thumb_large'));
-//                    rowItem.setAttribute('data-bb-title', (itemMax == 3) ? item.name.substr(0, 15) + '..' : item.name.substr(0, 10) + '..');
-                    rowItem.setAttribute('data-bb-title', item.name);
-//                    rowItem.innerHTML = item.creator.full_name;
-                    row.appendChild(rowItem);
+                    console.log("Fetching success");
 
-                    itemCount++;
+                    document.getElementById("loadingIndicator").hide();
 
-                    if (itemCount > itemMax)
-                    {
-                        itemCount = 1;
-                        rowCount++;
+                    createGrid(data);
 
-                        if (rowCount == 3)
-                        {
-                            itemMax = 4;
-                            group = app.createGroup(grid);
-                            row = app.createRow(group);
-                        }
-                        else {
-                            row = app.createRow(group);
-                        }
-                    }
-                });
+                    // caching data to localStorage
+                    console.log("Saving cache to localStorage");
+                    localStorage.setItem(type, JSON.stringify(data));
 
-                element.getElementById('gridContainer').appendChild(grid);
-                bb.style(element);
-                bb.domready.fire();
-            })
-            .fail(function ()
+                    // flag for session cache - refresh data between app run
+                    window[type + 'Cached'] = true;
+                }.bind(this))
+
+                .fail(function ()
+                {
+                    alert("Cannot fetch " + type + " things!");
+                })
+        }
+
+        function createGrid(data)
+        {
+            console.log("Creating grid");
+
+            $.each(data, function (i, item)
             {
-                alert("Cannot fetch " + type + " things!");
-            })
+                var rowItem = document.createElement('div');
+                rowItem.setAttribute('data-bb-type', 'item');
+                rowItem.setAttribute('data-bb-img', item.thumbnail.replace('thumb_medium', 'thumb_large'));
+
+                var nameArr = item.name.split(" ");
+                var firstLine = "";
+                var secondLine = "";
+                if (nameArr.length > 1)
+                {
+                    firstLine = nameArr[0] + " " + nameArr[1];
+
+                    if (nameArr.length > 3)
+                    {
+                        secondLine = nameArr[2] + " " + nameArr[3];
+                    }
+                    else if (nameArr.length > 2)
+                    {
+                        secondLine = nameArr[2];
+                    }
+                }
+                else
+                {
+                    firstLine = nameArr[0];
+                }
+
+                rowItem.setAttribute('data-bb-title', firstLine);
+                rowItem.innerHTML = secondLine;
+                row.appendChild(rowItem);
+
+                itemCount++;
+
+                if (itemCount > itemMax)
+                {
+                    itemCount = 1;
+                    rowCount++;
+
+                    if (rowCount == 3)
+                    {
+                        itemMax = 4;
+                        group = app.createGroup(grid);
+                        row = app.createRow(group);
+                    }
+                    else {
+                        row = app.createRow(group);
+                    }
+                }
+            });
+
+            element.getElementById('gridContainer').appendChild(grid);
+            bb.style(element);
+            bb.domready.fire();
+        };
     },
 
     removeToken: function ()

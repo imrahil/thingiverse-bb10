@@ -39,34 +39,37 @@ var screenTools = {
         actionBar.setAttribute('data-bb-type', 'action-bar');
 
         var menuItem;
-        menuItem = screenTools.createMenuItem('tabFeatured', 'images/icons/tab1.png', 'Featured', 'view/thingsGridList.html', 'featured');
+        menuItem = screenTools.createMenuItem('tabFeatured', 'images/icons/ic_favorite.png', 'Featured', 'view/thingsGridList.html', 'featured');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabPopular', 'images/icons/tab1.png', 'Popular', 'view/thingsGridList.html', 'popular');
+        menuItem = screenTools.createMenuItem('tabPopular', 'images/icons/ic_diagnostics.png', 'Popular', 'view/thingsGridList.html', 'popular');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabNewest', 'images/icons/tab1.png', 'Newest', 'view/thingsGridList.html', 'newest');
+        menuItem = screenTools.createMenuItem('tabNewest', 'images/icons/ic_download.png', 'Newest', 'view/thingsGridList.html', 'newest');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabCollections', 'images/icons/tab1.png', 'Collections', 'view/listView.html', 'collections');
+        menuItem = screenTools.createMenuItem('tabCollections', 'images/icons/ic_all.png', 'Collections', 'view/listView.html', 'collections');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabCategories', 'images/icons/tab1.png', 'Categories', 'view/listView.html', 'categories');
+        menuItem = screenTools.createMenuItem('tabCategories', 'images/icons/ic_entry.png', 'Categories', 'view/listView.html', 'categories');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabTags', 'images/icons/tab1.png', 'Tags', 'view/thingsGridList.html', 'tags');
+        menuItem = screenTools.createMenuItem('tabTags', 'images/icons/ic_tags.png', 'Tags', 'view/thingsGridList.html', 'tags');
         actionBar.appendChild(menuItem);
 
-        menuItem = document.createElement('div');
-        menuItem.setAttribute('id', 'btnSearch');
-        menuItem.setAttribute('data-bb-type', 'action');
-        menuItem.setAttribute('data-bb-style', 'button');
-        menuItem.setAttribute('data-bb-img', 'images/icons/ic_search.png');
-        menuItem.innerHTML = 'Search';
-        menuItem.onclick = function() {
-            bb.pushScreen('view/search.html', 'search');
-        };
+        menuItem = screenTools.createMenuItem('btnSearch', 'images/icons/ic_search.png', 'Search', 'view/search.html', 'search', 'button', false);
         actionBar.appendChild(menuItem);
+
+//        menuItem = document.createElement('div');
+//        menuItem.setAttribute('id', 'btnSearch');
+//        menuItem.setAttribute('data-bb-type', 'action');
+//        menuItem.setAttribute('data-bb-style', 'button');
+//        menuItem.setAttribute('data-bb-img', 'images/icons/ic_search.png');
+//        menuItem.innerHTML = 'Search';
+//        menuItem.onclick = function() {
+//            bb.pushScreen('view/search.html', 'search');
+//        };
+//        actionBar.appendChild(menuItem);
 
         element.appendChild(actionBar);
     },
@@ -82,17 +85,20 @@ var screenTools = {
         element.appendChild(actionBar);
     },
 
-    createMenuItem : function (id, icon, label, click_target, click_id, params)
+    createMenuItem : function (id, icon, label, click_target, click_id, style, overflow)
     {
+        style = typeof style !== 'undefined' ? style : 'tab';
+        overflow = typeof overflow !== 'undefined' ? overflow : 'true';
+
         var menuItem = document.createElement('div');
         menuItem.setAttribute('id', id);
         menuItem.setAttribute('data-bb-type', 'action');
-        menuItem.setAttribute('data-bb-style', 'tab');
-        menuItem.setAttribute('data-bb-overflow', 'true');
+        menuItem.setAttribute('data-bb-style', style);
+        menuItem.setAttribute('data-bb-overflow', overflow);
         menuItem.setAttribute('data-bb-img', icon);
         menuItem.innerHTML = label;
         menuItem.onclick = function() {
-            bb.pushScreen(click_target, click_id, params);
+            bb.pushScreen(click_target, click_id);
         };
 
         return menuItem;

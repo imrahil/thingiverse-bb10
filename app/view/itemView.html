@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<div id="itemViewScreen" data-bb-type="screen" data-bb-effect="fade">
+    <div id="screenTitle" data-bb-type="title" data-bb-caption=""></div>
+
+    <div style="padding: 20px 30px 0 30px;">
+        <div id="itemImageGrid" data-bb-type="grid-layout" data-bb-style="square" style="margin-bottom: 20px;">
+       		<div data-bb-type="group">
+       			<div id="itemImageGridRow" data-bb-type="row" data-bb-columns="2"></div>
+       		</div>
+        </div>
+
+        <div><span class="itemInfo">Name:</span> <span id="itemNameHolder"></span></div>
+        <div><span class="itemInfo">Creator:</span> <span id="itemCreatorHolder"></span></div>
+        <div><span class="itemInfo">Added:</span> <span id="itemAddedHolder"></span></div>
+
+        <table style="width: 100%; margin-top: 20px;">
+            <tr>
+                <td style="width: 50%;">
+                    <div id="itemLikesBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;">Likes:</div>
+                </td>
+                <td style="width: 50%;">
+                    <div id="itemCollectionsBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;">Collections:</div>
+                </td>
+            </tr>
+        </table>
+
+        <div data-bb-type="pill-buttons" style="margin-bottom: 20px;">
+            <div data-bb-type="pill-button" data-bb-selected="true" onclick="document.getElementById('instructionsPanel').style.display = 'none'; document.getElementById('descriptionPanel').style.display = 'block';">Description</div>
+            <div data-bb-type="pill-button" onclick="document.getElementById('descriptionPanel').style.display = 'none'; document.getElementById('instructionsPanel').style.display = 'block';">Instructions</div>
+        </div>
+
+        <div data-bb-type="round-panel" id="descriptionPanel">
+       		<div data-bb-type="panel-header" style="border-top: none; margin-bottom: 20px;">Description</div>
+            <span id="itemDescriptionHolder"></span>
+       	</div>
+
+        <div data-bb-type="round-panel" id="instructionsPanel" style="display:none;">
+       		<div data-bb-type="panel-header" style="border-top: none; margin-bottom: 20px;">Instructions</div>
+            <span id="itemInstructionsHolder"></span>
+       	</div>
+    </div>
+
+    <div id="loadingIndicator" data-bb-type="activity-indicator" data-bb-size="large" style="margin:0 auto; padding-top: 50px;"></div>
+
+    <div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

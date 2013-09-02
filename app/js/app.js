@@ -1,10 +1,13 @@
 var thingiurlbase;
 
 var app = {
-    createRow: function (group)
+    createRow: function (group, columns)
     {
+        columns = typeof columns !== 'undefined' ? columns : 3;
+
         var row = document.createElement('div');
         row.setAttribute('data-bb-type', 'row');
+        row.setAttribute('data-bb-columns', columns);
         group.appendChild(row);
 
         return row;
@@ -32,11 +35,11 @@ var app = {
         grid.setAttribute('data-bb-header-justify','left');
 
         var group = app.createGroup(grid);
-        var row = app.createRow(group);
+        var row = app.createRow(group, 1);
 
         var rowCount = 1;
         var itemCount = 1;
-        var itemMax = 3;
+        var itemMax = 4;
 
         // Retrieve data from storage
         var cachedObject = localStorage.getItem(type);
@@ -67,12 +70,12 @@ var app = {
 
                     // flag for session cache - refresh data between app run
                     window[type + 'Cached'] = true;
-                }.bind(this))
+                })
 
                 .fail(function ()
                 {
                     alert("Cannot fetch " + type + " things!");
-                })
+                });
         }
 
         function createGrid(data)
@@ -108,6 +111,9 @@ var app = {
 
                 rowItem.setAttribute('data-bb-title', firstLine);
                 rowItem.innerHTML = secondLine;
+                rowItem.onclick = function() {
+                    bb.pushScreen('view/itemView.html', 'item-view', {item: item});
+                };
                 row.appendChild(rowItem);
 
                 itemCount++;
@@ -117,9 +123,9 @@ var app = {
                     itemCount = 1;
                     rowCount++;
 
-                    if (rowCount == 3)
+                    if (rowCount == 2)
                     {
-                        itemMax = 4;
+                        itemMax = 3;
                         group = app.createGroup(grid);
                         row = app.createRow(group);
                     }
@@ -155,7 +161,16 @@ var app = {
         thingiview.setBackgroundColor('#242424');
         thingiview.initScene();
         thingiview.loadSTL("../../stl/cube.stl");
-    }
+    },
 
+    showInfoPage: function()
+    {
+        if (!inRipple)
+        {
+            blackberry.invoke.invoke({
+                uri: "http://imrahil.github.io/thingiverse-bb10/"
+            });
+        }
+    }
 };
 

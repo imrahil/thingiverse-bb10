@@ -1,4 +1,4 @@
-function Category( name, url, count, things_url, thumbnail)
+function CategoryVO( name, url, count, things_url, thumbnail)
 {
     this.name       = name;
     this.url        = url;

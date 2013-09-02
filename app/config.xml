@@ -26,4 +26,5 @@
     <feature id="blackberry.ui.dialog"/>
     <feature id="blackberry.ui.toast"/>
     <feature id="blackberry.ui.contextmenu"/>
+    <feature id="blackberry.invoke" />
 </widget>

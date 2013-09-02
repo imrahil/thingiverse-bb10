@@ -9,7 +9,7 @@ config = {
     highlightColor: '#00BFFF',
 
     // Fires "before" styling is applied and "before" the screen is inserted in the DOM
-    onscreenready: function (element, id)
+    onscreenready: function (element, id, params)
     {
         var screen = element.querySelector('[data-bb-type=screen]');
         // Set our styles
@@ -20,7 +20,11 @@ config = {
         if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer' && id != 'collection-things' && id != 'categories-things')
         {
             screenTools.addTopMenu(screen);
-            screenTools.addActionBar(screen);
+
+            if (id != 'item-view')
+            {
+                screenTools.addActionBar(screen);
+            }
         }
 
         switch (id) {
@@ -56,6 +60,9 @@ config = {
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Tags');
                 element.getElementById('tabTags').setAttribute('data-bb-selected', 'true');
                 break;
+            case 'item-view':
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', params.item.name);
+                break;
         }
     },
 
@@ -83,6 +90,9 @@ config = {
                 break;
             case 'categories-things':
                 app.getThings(element, params.url);
+                break;
+            case 'item-view':
+                things.getThingDetails(element, params);
                 break;
             case 'viewer':
                 app.viewerInit();
@@ -139,6 +149,12 @@ function initApp()
             blackberry.ui.cover.updateCover();
         });
 
+        blackberry.event.addEventListener("resume", function() {
+            if (!window.navigator.onLine)
+            {
+                bbutils.showConnectionDialog();
+            }
+        });
     }
 
     // When app is first launched on the device

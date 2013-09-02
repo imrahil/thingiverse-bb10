@@ -1,4 +1,4 @@
-function Collection(id, name, description, added, url, thumbnail)
+function CollectionVO(id, name, description, added, url, thumbnail)
 {
     this.id             = id;
     this.name           = name;

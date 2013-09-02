@@ -21,7 +21,7 @@ config = {
         {
             screenTools.addTopMenu(screen);
 
-            if (id != 'item-view')
+            if (id != 'item-view' && id != 'image-view')
             {
                 screenTools.addActionBar(screen);
             }
@@ -93,6 +93,9 @@ config = {
                 break;
             case 'item-view':
                 things.getThingDetails(element, params);
+                break;
+            case 'image-view':
+                things.showImage(element, params);
                 break;
             case 'viewer':
                 app.viewerInit();

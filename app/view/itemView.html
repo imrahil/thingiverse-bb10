@@ -2,12 +2,14 @@
 <div id="itemViewScreen" data-bb-type="screen" data-bb-effect="fade">
     <div id="screenTitle" data-bb-type="title" data-bb-caption=""></div>
 
-    <div style="padding: 20px 30px 0 30px;">
-        <div id="itemImageGrid" data-bb-type="grid-layout" data-bb-style="square" style="margin-bottom: 20px;">
-       		<div data-bb-type="group">
-       			<div id="itemImageGridRow" data-bb-type="row" data-bb-columns="2"></div>
-       		</div>
+    <div id="itemImageGrid" data-bb-type="grid-layout" data-bb-style="square" style="margin-bottom: 20px; min-height: 300px;">
+        <div data-bb-type="group">
+            <div id="itemImageGridRow" data-bb-type="row" data-bb-columns="2"></div>
         </div>
+    </div>
+
+    <div style="padding: 10px 30px 0 30px;">
+        <div style="border-bottom: 4px #009FDF solid; margin-bottom: 15px;"></div>
 
         <div><span class="itemInfo">Name:</span> <span id="itemNameHolder"></span></div>
         <div><span class="itemInfo">Creator:</span> <span id="itemCreatorHolder"></span></div>
@@ -31,6 +33,7 @@
 
         <div data-bb-type="round-panel" id="descriptionPanel">
        		<div data-bb-type="panel-header" style="border-top: none; margin-bottom: 20px;">Description</div>
+            <div id="loadingIndicator" data-bb-type="activity-indicator" data-bb-size="medium" style="margin:0 auto; padding-top: 50px;"></div>
             <span id="itemDescriptionHolder"></span>
        	</div>
 
@@ -38,9 +41,13 @@
        		<div data-bb-type="panel-header" style="border-top: none; margin-bottom: 20px;">Instructions</div>
             <span id="itemInstructionsHolder"></span>
        	</div>
-    </div>
 
-    <div id="loadingIndicator" data-bb-type="activity-indicator" data-bb-size="large" style="margin:0 auto; padding-top: 50px;"></div>
+        <div data-bb-type="round-panel" id="filePanel">
+            <div data-bb-type="panel-header" style="border-top: none; margin-bottom: 20px;">Files</div>
+            <div id="filesIndicator" data-bb-type="activity-indicator" data-bb-size="medium" style="margin:0 auto; padding-top: 50px;"></div>
+            <div id="fileList" data-bb-type="image-list" data-bb-style="arrowbuttons"></div>
+        </div>
+    </div>
 
     <div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>

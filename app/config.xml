@@ -13,6 +13,7 @@
     <access uri="*" subdomains="true"/>
     <access uri="http://thingiverse.com" subdomains="true"/>
     <access uri="https://thingiverse.com" subdomains="true"/>
+    <access uri="http://amazonaws.com" subdomains="true"/>
 
     <icon src="images/icon.png"/>
     <rim:splash src="images/splash-1280x768.png"/>
@@ -27,4 +28,8 @@
     <feature id="blackberry.ui.toast"/>
     <feature id="blackberry.ui.contextmenu"/>
     <feature id="blackberry.invoke" />
+
+    <rim:permissions>
+        <rim:permit>access_shared</rim:permit>
+    </rim:permissions>
 </widget>

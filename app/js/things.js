@@ -4,21 +4,24 @@ var things = {
         console.log("Fetching thing details");
 
         var item = params.item;
-        var cachedObject;
 
         document.getElementById("itemNameHolder").innerHTML = item.name;
         document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
 
-        // Retrieve item data from storage
-        cachedObject = localStorage.getItem('Item' + item.id);
+        // ***************
+        //     DETAILS
+        // ***************
 
-        if (cachedObject && window['Item' + item.id + 'Cached'])
+        // Retrieve item data from storage
+        var detailsCachedObject = localStorage.getItem('Item' + item.id);
+
+        if (detailsCachedObject && window['Item' + item.id + 'Cached'])
         {
             console.log('Cache object exist!');
 
             document.getElementById("loadingIndicator").hide();
 
-            fillDetails(JSON.parse(cachedObject));
+            fillDetails(JSON.parse(detailsCachedObject));
         }
         else
         {
@@ -38,12 +41,15 @@ var things = {
 
                         fillDetails(data);
 
-                        // caching data to localStorage
-                        console.log("Saving item cache to localStorage");
-                        localStorage.setItem('Item' + data.id, JSON.stringify(data));
+                        if (data.length > 0)
+                        {
+                            // caching data to localStorage
+                            console.log("Saving item cache to localStorage");
+                            localStorage.setItem('Item' + data.id, JSON.stringify(data));
 
-                        // flag for session cache - refresh data between app run
-                        window['Item' + data.id + 'Cached'] = true;
+                            // flag for session cache - refresh data between app run
+                            window['Item' + data.id + 'Cached'] = true;
+                        }
                     }
                 })
 
@@ -53,15 +59,19 @@ var things = {
                 })
         }
 
-        // Retrieve images data from storage
-        cachedObject = localStorage.getItem('ItemImages' + item.id);
+        // ***************
+        //     IMAGES
+        // ***************
 
-        if (cachedObject && window['ItemImages' + item.id + 'Cached'])
+        // Retrieve images data from storage
+        var imagesCachedObject = localStorage.getItem('ItemImages' + item.id);
+
+        if (imagesCachedObject && window['ItemImages' + item.id + 'Cached'])
         {
             console.log('Images cache object exist!');
 
             setTimeout(function() {
-                fillImages(JSON.parse(cachedObject));
+                fillImages(JSON.parse(imagesCachedObject));
             }, 50);
         }
         else
@@ -80,18 +90,72 @@ var things = {
 
                         fillImages(data);
 
-                        // caching data to localStorage
-                        console.log("Saving image cache to localStorage");
-                        localStorage.setItem('ItemImages' + item.id, JSON.stringify(data));
+                        if (data.length > 0)
+                        {
+                            // caching data to localStorage
+                            console.log("Saving image cache to localStorage");
+                            localStorage.setItem('ItemImages' + item.id, JSON.stringify(data));
 
-                        // flag for session cache - refresh data between app run
-                        window['ItemImages' + item.id + 'Cached'] = true;
+                            // flag for session cache - refresh data between app run
+                            window['ItemImages' + item.id + 'Cached'] = true;
+                        }
                     }
                 })
 
                 .fail(function ()
                 {
-                    alert("Cannot fetch thing details! Try again later.");
+                    alert("Cannot fetch thing images! Try again later.");
+                });
+        }
+
+        // ***************
+        //     FILES
+        // ***************
+
+        // Retrieve images data from storage
+        var filesCachedObject = localStorage.getItem('ItemFiles' + item.id);
+
+        if (filesCachedObject && window['ItemFiles' + item.id + 'Cached'])
+        {
+            console.log('Files cache object exist!');
+
+            document.getElementById("filesIndicator").hide();
+
+            fillFiles(JSON.parse(filesCachedObject));
+        }
+        else
+        {
+            url = thingiverseOptions.apiUri + "things/" + item.id + '/files?access_token=' + window.accessToken;
+            console.log("URL - files: " + url);
+
+            $.getJSON(url)
+                .done(function (data)
+                {
+                    var screen = document.getElementById('itemViewScreen');
+
+                    if (screen)
+                    {
+                        console.log("Fetching item files success");
+
+                        document.getElementById("filesIndicator").hide();
+
+                        fillFiles(data);
+
+                        if (data.length > 0)
+                        {
+                            // caching data to localStorage
+                            console.log("Saving image cache to localStorage");
+                            localStorage.setItem('ItemFiles' + item.id, JSON.stringify(data));
+
+                            // flag for session cache - refresh data between app run
+                            window['ItemFiles' + item.id + 'Cached'] = true;
+                        }
+                    }
+                })
+
+                .fail(function ()
+                {
+                    alert("Cannot fetch thing files! Try again later.");
                 });
         }
 
@@ -137,6 +201,49 @@ var things = {
             _bb10_grid.apply(element.querySelectorAll('[data-bb-type=grid-layout]'));
             bb.domready.fire();
         }
+
+        function fillFiles(data)
+        {
+            console.log("Filling files list");
+
+            var items = [],
+                item;
+
+            document.getElementById("loadingIndicator").hide();
+
+            $.each(data, function (i, file)
+            {
+                item = document.createElement('div');
+                item.setAttribute('data-bb-type', 'item');
+                item.setAttribute('data-bb-title', file.name);
+                item.setAttribute('data-bb-img', file.thumbnail);
+
+                if (file.threejs_url != "")
+                {
+                    item.onbtnclick = function ()
+                    {
+                        bb.pushScreen('view/viewer.html', 'viewer', {url: file.public_url});
+                    };
+                }
+                else
+                {
+                    if (!inRipple)
+                    {
+                        blackberry.io.filetransfer.download(
+                            file.public_url,
+                            blackberry.io.sharedFolder + file.name,
+                            function (result) {
+                            },
+                            function (result) {
+                                alert("Download failed");
+                            });
+                    }
+                }
+                items.push(item);
+            });
+
+            document.getElementById('fileList').refresh(items);
+        }
     },
 
     showImage: function(element, params)
@@ -155,20 +262,18 @@ var things = {
         var rect = document.getElementById('imagePreview');
 
         var posX=0, posY=0,
-            scale=1, last_scale,
-            rotation= 1, last_rotation;
+            scale=1, last_scale;
 
         hammertime.on('touch drag transform', function(ev) {
             switch(ev.type) {
                 case 'touch':
                     last_scale = scale;
-                    last_rotation = rotation;
                     break;
 
                 case 'drag':
-                     posX = ev.gesture.deltaX;
-                     posY = ev.gesture.deltaY;
-                     break;
+                    posX = ev.gesture.deltaX;
+                    posY = ev.gesture.deltaY;
+                    break;
 
                 case 'transform':
                     scale = Math.max(1, Math.min(last_scale * ev.gesture.scale, 10));

@@ -47,6 +47,7 @@ var app = {
 
             setTimeout(function() {
                 document.getElementById("loadingIndicator").hide();
+                cachedObject = localStorage.getItem(type);
                 createGrid(JSON.parse(cachedObject));
             }, 50);
         }
@@ -64,12 +65,15 @@ var app = {
 
                     createGrid(data);
 
-                    // caching data to localStorage
-                    console.log("Saving cache to localStorage");
-                    localStorage.setItem(type, JSON.stringify(data));
+                    if (data.length > 0)
+                    {
+                        // caching data to localStorage
+                        console.log("Saving cache to localStorage");
+                        localStorage.setItem(type, JSON.stringify(data));
 
-                    // flag for session cache - refresh data between app run
-                    window[type + 'Cached'] = true;
+                        // flag for session cache - refresh data between app run
+                        window[type + 'Cached'] = true;
+                    }
                 })
 
                 .fail(function ()
@@ -148,19 +152,50 @@ var app = {
 
     showViewer: function ()
     {
-        bb.pushScreen('view/viewer.html', 'viewer');
+        bb.pushScreen('view/viewer.html', 'viewer', {url: "../../stl/light_switch_force_plate.stl"});
     },
 
-    viewerInit: function ()
+    viewerInit: function (params)
     {
+        console.log("Viewer started");
+
         $('#viewer').height(window.innerHeight - 200);
 
-        thingiurlbase = "js/lib";
-        var thingiview = new Thingiview("viewer");
-        thingiview.setObjectColor('#C0D8F0');
-        thingiview.setBackgroundColor('#242424');
-        thingiview.initScene();
-        thingiview.loadSTL("../../stl/cube.stl");
+        $.ajax({
+            url: params.url,
+            type: "GET",
+            beforeSend: function ( xhr ) {
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            }
+        })
+            .done(function (data)
+            {
+                console.log("Downloaded STL file");
+
+                thingiurlbase = "js/lib";
+                var thingiview = new Thingiview("viewer");
+                thingiview.setObjectColor('#C0D8F0');
+                thingiview.setBackgroundColor('#242424');
+                thingiview.initScene();
+
+                var reader = new jDataView(data);
+
+                reader.seek(80);
+                // skip the header
+                var count = reader.getUint32();
+
+                var predictedSize = 80 /* header */ + 4 /* count */ + 50 * count;
+
+                if (data.length == predictedSize) {
+                    console.log("STL Binary");
+                    thingiview.loadSTLBinary(new jDataView(data));
+                } else {
+                    console.log("STL String");
+                    thingiview.loadSTLString(data);
+                }
+
+                document.getElementById("loadingIndicator").hide();
+            });
     },
 
     showInfoPage: function()

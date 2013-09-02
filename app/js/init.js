@@ -98,7 +98,7 @@ config = {
                 things.showImage(element, params);
                 break;
             case 'viewer':
-                app.viewerInit();
+                app.viewerInit(params);
                 break;
             case 'info':
                 break;

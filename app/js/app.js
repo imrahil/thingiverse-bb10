@@ -26,9 +26,6 @@ var app = {
     {
         console.log("Fetching things: " + type);
 
-        var url = thingiverseOptions.apiUri + type + '?access_token=' + window.accessToken;
-        console.log("URL: " + url);
-
         var grid = document.createElement('div');
         grid.setAttribute('data-bb-type','grid-layout');
         grid.setAttribute('data-bb-style','square');
@@ -55,6 +52,9 @@ var app = {
         }
         else
         {
+            var url = thingiverseOptions.apiUri + type + '?access_token=' + window.accessToken;
+            console.log("URL: " + url);
+
             $.getJSON(url)
                 .done(function (data)
                 {

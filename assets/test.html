@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
         body {
-            background: #242424;
+            background-color: #f0f0f0;
             padding: 0;
             margin: 0;
             font-weight: bold;
@@ -17,35 +17,196 @@
 
 <body>
 
-<script src="three.min.js?v=2"></script>
-<script src="Thingiview2.js?v=2"></script>
-<script src="NormalControls.js?v=2"></script>
+<script src="../app/js/lib/three.min.js?v=2"></script>
+<script src="../app/js/lib/Thingiview2.js?v=2"></script>
+<script src="../app/js/lib/NormalControls.js?v=2"></script>
+<script src="../app/js/lib/stats.min.js"></script>
 
 <div id="holder"></div>
 
 <script>
     // parse opts
-    var argv = {};
-    argv['file'] = 'http://thingiverse-production.s3.amazonaws.com/threejs_json/d3/32/e4/4e/82/4fe9016dlight_switch_force_plate.js';
+//    var argv = {};
+//    argv['file'] = 'http://thingiverse-production.s3.amazonaws.com/threejs_json/d3/32/e4/4e/82/4fe9016dlight_switch_force_plate.js';
 
-    var thingiview = new Thingiview(document.getElementById("holder"));
-//    thingiview.resize(500, 500);
+//    var thingiview = new Thingiview(document.getElementById("holder"));
+    //    thingiview.resize(500, 500);
 
-    var self = thingiview;
+//    var self = thingiview;
     loader = new THREE.JSONLoader(true);
 
     loadCallback = function (geometry, materials)
     {
-        self.addModel(geometry);
+        addModel(geometry);
     };
-    loader.load(argv['file'], loadCallback);
+    loader.load('http://thingiverse-production.s3.amazonaws.com/threejs_json/d3/32/e4/4e/82/4fe9016dlight_switch_force_plate.js', loadCallback);
 
-    var animate = function ()
+    var container, stats;
+
+    var camera, scene, renderer;
+
+    var cube, plane;
+
+    var targetRotation = 0;
+    var targetRotationOnMouseDown = 0;
+
+    var mouseX = 0;
+    var mouseXOnMouseDown = 0;
+
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+
+    init();
+    animate();
+
+    function addModel(geometry)
+    {
+        var material = new THREE.MeshPhongMaterial({
+            color: 0x0D8DFF,
+//        specular: 0xA0A0A0,
+//            shading: THREE.SmoothShading,
+            shininess: 150,
+            fog: false,
+            side: THREE.DoubleSide
+        });
+
+        cube = new THREE.Mesh(geometry, material);
+        cube.geometry.computeBoundingBox();
+        var dims = cube.geometry.boundingBox.max.clone().sub(cube.geometry.boundingBox.min);
+        var maxDim = Math.max(Math.max(dims.x, dims.y), dims.z);
+        this.scale = 100 / maxDim;
+        cube.position.x = -(cube.geometry.boundingBox.min.x + cube.geometry.boundingBox.max.x) / 2 * this.scale;
+        cube.position.y = -(cube.geometry.boundingBox.min.y + cube.geometry.boundingBox.max.y) / 2 * this.scale;
+        cube.position.z = -cube.geometry.boundingBox.min.z * this.scale;
+
+        scene.add(cube);
+    }
+
+    function init()
+    {
+        var geometry, material;
+
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.y = 150;
+        camera.position.z = 500;
+
+        scene = new THREE.Scene();
+
+        // Plane
+
+        geometry = new THREE.PlaneGeometry(200, 200);
+        geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
+
+        material = new THREE.MeshBasicMaterial({ color: 0xe0e0e0, overdraw: 0.5 });
+
+        plane = new THREE.Mesh(geometry, material);
+        scene.add(plane);
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        container.appendChild(renderer.domElement);
+
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+        container.appendChild(stats.domElement);
+
+        document.addEventListener('mousedown', onDocumentMouseDown, false);
+        document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchmove', onDocumentTouchMove, false);
+
+        //
+
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function onWindowResize()
+    {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    //
+
+    function onDocumentMouseDown(event)
+    {
+        event.preventDefault();
+
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('mouseup', onDocumentMouseUp, false);
+        document.addEventListener('mouseout', onDocumentMouseOut, false);
+
+        mouseXOnMouseDown = event.clientX - windowHalfX;
+        targetRotationOnMouseDown = targetRotation;
+    }
+
+    function onDocumentMouseMove(event)
+    {
+        mouseX = event.clientX - windowHalfX;
+
+        targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+    }
+
+    function onDocumentMouseUp(event)
+    {
+        document.removeEventListener('mousemove', onDocumentMouseMove, false);
+        document.removeEventListener('mouseup', onDocumentMouseUp, false);
+        document.removeEventListener('mouseout', onDocumentMouseOut, false);
+    }
+
+    function onDocumentMouseOut(event)
+    {
+        document.removeEventListener('mousemove', onDocumentMouseMove, false);
+        document.removeEventListener('mouseup', onDocumentMouseUp, false);
+        document.removeEventListener('mouseout', onDocumentMouseOut, false);
+    }
+
+    function onDocumentTouchStart(event)
+    {
+        if (event.touches.length === 1)
+        {
+            event.preventDefault();
+
+            mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
+            targetRotationOnMouseDown = targetRotation;
+        }
+    }
+
+    function onDocumentTouchMove(event)
+    {
+        if (event.touches.length === 1)
+        {
+            event.preventDefault();
+
+            mouseX = event.touches[ 0 ].pageX - windowHalfX;
+            targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
+        }
+    }
+
+    //
+
+    function animate()
     {
         requestAnimationFrame(animate);
-        thingiview.render();
+
+        render();
+        stats.update();
     }
-    animate();
+
+    function render()
+    {
+        plane.rotation.y = cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
+        renderer.render(scene, camera);
+    }
 
 </script>
 

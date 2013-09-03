@@ -160,24 +160,23 @@ var app = {
         console.log("Viewer started");
         console.log("URL - threejs_url: " + params.url);
 
-
-        var holder = document.getElementById("viewer");
-        var thingiview = new Thingiview(holder);
-        var loader = new THREE.JSONLoader();
-
-        var loadCallback = function ( geometry, materials ) {
-            document.getElementById("loadingIndicator").hide();
-
-            thingiview.addModel(geometry);
-        };
-        loader.load(params.url, loadCallback);
-
-        var animate = function() {
-            requestAnimationFrame(animate);
-            thingiview.render();
-        };
-
-        animate();
+//        var holder = document.getElementById("viewer");
+//        var thingiview = new Thingiview(holder);
+//        var loader = new THREE.JSONLoader();
+//
+//        var loadCallback = function ( geometry, materials ) {
+//            document.getElementById("loadingIndicator").hide();
+//
+//            thingiview.addModel(geometry);
+//        };
+//        loader.load(params.url, loadCallback);
+//
+//        var animate = function() {
+//            requestAnimationFrame(animate);
+//            thingiview.render();
+//        };
+//
+//        animate();
 
 //        $('#viewer').height(window.innerHeight - 200);
 
@@ -186,7 +185,15 @@ var app = {
 //        thingiview.setObjectColor('#C0D8F0');
 //        thingiview.setBackgroundColor('#242424');
 //        thingiview.initScene();
-//        thingiview.loadSTL(params.url);
+//
+//        var loader = new THREE.JSONLoader();
+//
+//        var loadCallback = function (geometry, materials) {
+//            document.getElementById("loadingIndicator").hide();
+//
+////            thingiview.addModel(geometry);
+//        };
+//        loader.load(params.url, loadCallback);
 
 
 //        $.getJSON(params.url)

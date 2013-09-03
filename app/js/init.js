@@ -160,6 +160,17 @@ function initApp()
         });
     }
 
+    window.requestAnimFrame = (function ()
+    {
+        return  window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            function (callback)
+            {
+                window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+
     // When app is first launched on the device
     var accessToken = localStorage.getItem("tviewerAccessToken");
 

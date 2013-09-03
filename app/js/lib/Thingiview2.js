@@ -1,12 +1,15 @@
-var Thingiview = function (element) {
+var Thingiview = function (element)
+{
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.models = [];
     this.fogColor = 0x242424;
     this.scale = 1;
     this.init(element);
-}
-Thingiview.prototype.init = function (element) {
+};
+
+Thingiview.prototype.init = function (element)
+{
     this.container = document.createElement('div');
     this.container.style.width = this.width + "px";
     this.container.style.height = this.height + "px";
@@ -27,13 +30,13 @@ Thingiview.prototype.init = function (element) {
     this.controls = new THREE.NormalControls(this.camera, this.container);
 //    this.reflectCamera = new THREE.CubeCamera(0.1, 5000, 512);
 //    this.scene.add(this.reflectCamera);
-    var material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        emissive: 0xffffff,
-        shading: THREE.SmoothShading,
-        fog: false,
-        side: THREE.BackSide
-    });
+//    var material = new THREE.MeshPhongMaterial({
+//        color: 0xffffff,
+//        emissive: 0xffffff,
+//        shading: THREE.SmoothShading,
+//        fog: false,
+//        side: THREE.BackSide
+//    });
 //    var skybox = new THREE.Mesh(new THREE.CubeGeometry(1000, 1000, 1000), material);
 //    skybox.name = 'skybox';
 //    this.scene.add(skybox);
@@ -64,15 +67,19 @@ Thingiview.prototype.init = function (element) {
     this.renderer.setSize(this.width, this.height);
     this.container.appendChild(this.renderer.domElement);
     this.initLights();
-}
-Thingiview.prototype.resize = function (width, height) {
+};
+
+Thingiview.prototype.resize = function (width, height)
+{
     this.width = width;
     this.height = height;
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
-}
-Thingiview.prototype.initLights = function () {
+};
+
+Thingiview.prototype.initLights = function ()
+{
     this.spotLight = new THREE.SpotLight(0xffffff, .3, 0);
     this.spotLight.position.set(-700, 1000, 1000);
     this.spotLight.castShadow = false;
@@ -94,13 +101,17 @@ Thingiview.prototype.initLights = function () {
     pointLight.position.set(0, 0, -10000);
     this.scene.add(pointLight);
     this.pointLights.push(pointLight);
-}
-Thingiview.prototype.centerCamera = function () {
+};
+
+Thingiview.prototype.centerCamera = function ()
+{
     var sceneCenter = undefined;
     var sceneObjects = 0;
     var sceneBox = new THREE.Box3();
-    this.scene.traverse(function (object) {
-        if (object instanceof THREE.Mesh) {
+    this.scene.traverse(function (object)
+    {
+        if (object instanceof THREE.Mesh)
+        {
             if (object.name == "skybox" || object.name == "plane" || object.name == "planewire")
                 return;
             sceneObjects += 1;
@@ -123,7 +134,8 @@ Thingiview.prototype.centerCamera = function () {
             sceneBox.max.z = Math.max(sceneBox.max.z, object.geometry.boundingBox.max.z);
             if (sceneCenter === undefined)
                 newCenter = objectCenter.clone();
-            else {
+            else
+            {
                 var newCenter = new THREE.Vector3();
                 newCenter.sub(objectCenter, sceneCenter);
                 newCenter.divideScalar(sceneObjects + 1);
@@ -142,12 +154,14 @@ Thingiview.prototype.centerCamera = function () {
     var cameraPosition = this.controls.target.clone().sub(this.camera.position).normalize().multiplyScalar(distance);
     this.controls.desiredCameraPosition = sceneCenter.clone().sub(cameraPosition);
     this.controls.maxDistance = distance * 10;
-}
-Thingiview.prototype.addModel = function (geometry) {
+};
+
+Thingiview.prototype.addModel = function (geometry)
+{
     var obj, i;
-    var material = new THREE.MeshPhongMaterial({
+    var material = new THREE.MeshBasicMaterial({
         color: 0x0D8DFF,
-        specular: 0xA0A0A0,
+//        specular: 0xA0A0A0,
         shading: THREE.SmoothShading,
         shininess: 150,
         fog: false,
@@ -164,12 +178,16 @@ Thingiview.prototype.addModel = function (geometry) {
     this.scene.add(mesh);
     this.models.push(mesh);
     for (var i = 0; i < this.models.length; i++)
+    {
         this.models[i].scale.x = this.models[i].scale.y = this.models[i].scale.z = this.scale;
+    }
 //    this.wirePlane.scale.x = this.wirePlane.scale.y = this.wirePlane.scale.z = this.scale;
 //    this.plane.scale.x = this.plane.scale.y = this.plane.scale.z = this.scale;
     this.centerCamera();
-}
-Thingiview.prototype.render = function () {
+};
+
+Thingiview.prototype.render = function ()
+{
     var now = Date.now();
     if (this.lastRenderTime == undefined)
         this.timeElapsed = 0;
@@ -181,18 +199,20 @@ Thingiview.prototype.render = function () {
 //    this.reflectCamera.position.z = -this.camera.position.z;
 //    this.reflectCamera.position.y = this.camera.position.y;
 //    this.reflectCamera.position.x = this.camera.position.x;
-    this.scene.traverse(function (object) {
+    this.scene.traverse(function (object)
+    {
         if (object.name == "plane" || object.name == "planewire")
             object.visible = false;
         if (object.name == "skybox")
             object.visible = true;
     });
 //    this.reflectCamera.updateCubeMap(this.renderer, this.scene);
-    this.scene.traverse(function (object) {
+    this.scene.traverse(function (object)
+    {
         if (object.name == "plane" || object.name == "planewire")
             object.visible = true;
         if (object.name == "skybox")
             object.visible = false;
     });
     this.renderer.render(this.scene, this.camera);
-}
+};

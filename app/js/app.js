@@ -158,44 +158,56 @@ var app = {
     viewerInit: function (params)
     {
         console.log("Viewer started");
+        console.log("URL - threejs_url: " + params.url);
 
-        $('#viewer').height(window.innerHeight - 200);
 
-        $.ajax({
-            url: params.url,
-            type: "GET",
-            beforeSend: function ( xhr ) {
-                xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            }
-        })
-            .done(function (data)
-            {
-                console.log("Downloaded STL file");
+        var holder = document.getElementById("viewer");
+        var thingiview = new Thingiview(holder);
+        var loader = new THREE.JSONLoader();
 
-                thingiurlbase = "js/lib";
-                var thingiview = new Thingiview("viewer");
-                thingiview.setObjectColor('#C0D8F0');
-                thingiview.setBackgroundColor('#242424');
-                thingiview.initScene();
+        var loadCallback = function ( geometry, materials ) {
+            document.getElementById("loadingIndicator").hide();
 
-                var reader = new jDataView(data);
+            thingiview.addModel(geometry);
+        };
+        loader.load(params.url, loadCallback);
 
-                reader.seek(80);
-                // skip the header
-                var count = reader.getUint32();
+        var animate = function() {
+            requestAnimationFrame(animate);
+            thingiview.render();
+        };
 
-                var predictedSize = 80 /* header */ + 4 /* count */ + 50 * count;
+        animate();
 
-                if (data.length == predictedSize) {
-                    console.log("STL Binary");
-                    thingiview.loadSTLBinary(new jDataView(data));
-                } else {
-                    console.log("STL String");
-                    thingiview.loadSTLString(data);
-                }
+//        $('#viewer').height(window.innerHeight - 200);
 
-                document.getElementById("loadingIndicator").hide();
-            });
+//        thingiurlbase = "js/lib";
+//        var thingiview = new Thingiview("viewer");
+//        thingiview.setObjectColor('#C0D8F0');
+//        thingiview.setBackgroundColor('#242424');
+//        thingiview.initScene();
+//        thingiview.loadSTL(params.url);
+
+
+//        $.getJSON(params.url)
+//            .done(function (data)
+//            {
+//                console.log("Downloaded STL file");
+//
+//                thingiurlbase = "js/lib";
+//                var thingiview = new Thingiview("viewer");
+//                thingiview.setObjectColor('#C0D8F0');
+//                thingiview.setBackgroundColor('#242424');
+//                thingiview.initScene();
+//
+//                thingiview.loadJSONString(data);
+//
+//                document.getElementById("loadingIndicator").hide();
+//            })
+//            .fail(function ()
+//            {
+//                alert("Cannot fetch thing files! Try again later.");
+//            });
     },
 
     showInfoPage: function()

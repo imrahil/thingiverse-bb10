@@ -222,7 +222,7 @@ var things = {
                 {
                     item.onbtnclick = function ()
                     {
-                        bb.pushScreen('view/viewer.html', 'viewer', {url: file.public_url});
+                        bb.pushScreen('view/viewer.html', 'viewer', {url: file.threejs_url});
                     };
                 }
                 else

@@ -618,6 +618,10 @@ Thingiview.prototype.loadJSON = function(url) {
     this.scope.newWorker('loadJSON', url);
   }
 
+Thingiview.prototype.loadJSONString = function(OBJString) {
+    this.scope.newWorker('loadJSONString', OBJString);
+  }
+
 Thingiview.prototype.loadPLY = function(url) {
     this.scope.newWorker('loadPLY', url);
   }

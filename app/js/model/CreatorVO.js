@@ -1,9 +1,17 @@
-function CreatorVO(id, name, full_name, url, public_url, thumbnail)
+function CreatorVO()
 {
-    this.id            = id;
-    this.name          = name;
-    this.full_name     = full_name;
-    this.url           = url;
-    this.public_url    = public_url;
-    this.thumbnail     = thumbnail;
+    this.id = "";
+    this.name = "";
+    this.full_name = "";
+    this.url = "";
+    this.public_url = "";
+    this.thumbnail = "";
+    this.bio = "";
+    this.location = "";
+    this.registered = "";
+    this.last_active = "";
+    this.things_url = "";
+    this.copies_url = "";
+    this.likes_url = "";
+    this.is_following = "";
 }

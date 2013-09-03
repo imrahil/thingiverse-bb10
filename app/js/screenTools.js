@@ -60,6 +60,9 @@ var screenTools = {
         menuItem = screenTools.createMenuItem('btnSearch', 'images/icons/ic_search.png', 'Search', 'view/search.html', 'search', 'button', false);
         actionBar.appendChild(menuItem);
 
+        menuItem = screenTools.createMenuItem('btnOpen', 'images/icons/ic_open.png', 'Open', 'view/openItem.html', 'open-item', 'button', false);
+        actionBar.appendChild(menuItem);
+
 //        menuItem = document.createElement('div');
 //        menuItem.setAttribute('id', 'btnSearch');
 //        menuItem.setAttribute('data-bb-type', 'action');

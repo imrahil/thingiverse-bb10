@@ -17,7 +17,7 @@ config = {
         screen.style.color = 'white';
         screen.style.fontSize = "2.5em";
 
-        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer' && id != 'collection-things' && id != 'categories-things')
+        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer' && id != 'collection-things' && id != 'categories-things' && id != 'creator' && id != 'open-item')
         {
             screenTools.addTopMenu(screen);
 

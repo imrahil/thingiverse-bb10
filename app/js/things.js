@@ -1,4 +1,5 @@
 var things = {
+    item: "",
     getThingDetails: function (element, params)
     {
         console.log("Fetching thing details");
@@ -7,6 +8,7 @@ var things = {
 
         document.getElementById("itemNameHolder").innerHTML = item.name;
         document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
+        document.getElementById("creatorImageHolder").setAttribute("src", item.creator.thumbnail);
 
         // ***************
         //     DETAILS
@@ -31,6 +33,7 @@ var things = {
             $.getJSON(url)
                 .done(function (data)
                 {
+                    this.item = data;
                     var screen = document.getElementById('itemViewScreen');
 
                     if (screen)
@@ -164,6 +167,7 @@ var things = {
             console.log("Filling item details");
 
             document.getElementById("itemAddedHolder").innerHTML = item.added.substr(0, 10);
+            document.getElementById("itemModifiedHolder").innerHTML = item.modified.substr(0, 10);
             document.getElementById("itemLikesBtn").setCaption('Likes: ' + item.like_count);
             document.getElementById("itemCollectionsBtn").setCaption('Collections: ' + item.collect_count);
 
@@ -291,5 +295,26 @@ var things = {
             rect.style.mozTransform = transform;
             rect.style.webkitTransform = transform;
         });
+    },
+
+    showCreator: function()
+    {
+        console.log("Show creator details");
+
+        bb.pushScreen('view/creator.html', 'creator', {url: this.item.creator});
+    },
+
+    showLikes: function()
+    {
+        console.log("Show item likes");
+
+        bb.pushScreen('view/creator.html', 'creator', {url: this.item.creator});
+    },
+
+    showCollections: function()
+    {
+        console.log("Show item collections");
+
+        bb.pushScreen('view/creator.html', 'creator', {url: this.item.creator});
     }
 };

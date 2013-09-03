@@ -12,16 +12,23 @@
         <div style="border-bottom: 4px #009FDF solid; margin-bottom: 15px;"></div>
 
         <div><span class="itemInfo">Name:</span> <span id="itemNameHolder"></span></div>
-        <div><span class="itemInfo">Creator:</span> <span id="itemCreatorHolder"></span></div>
-        <div><span class="itemInfo">Added:</span> <span id="itemAddedHolder"></span></div>
+        <table>
+            <tr>
+                <td><div style="margin-right: 20px;"><span class="itemInfo">Creator:</span> <span id="itemCreatorHolder"></span></div></td>
+                <td style="width: 85px;"><img id="creatorImageHolder" width="75" height="75" src="" onclick="things.showCreator()" /></td>
+            </tr>
+        </table>
+        <div><span class="itemInfo">Added:</span> <span id="itemAddedHolder" style="font-size: 0.8em;"></span></div>
+        <div><span class="itemInfo">Modified:</span> <span id="itemModifiedHolder" style="font-size: 0.8em;"></span></div>
+        <div><span class="itemInfo">Categories:</span> <span id="itemCategoriesHolder" style="font-size: 0.8em;"></span></div>
 
         <table style="width: 100%; margin-top: 20px;">
             <tr>
                 <td style="width: 50%;">
-                    <div id="itemLikesBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;">Likes:</div>
+                    <div id="itemLikesBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;" onclick="things.showLikes()">Likes:</div>
                 </td>
                 <td style="width: 50%;">
-                    <div id="itemCollectionsBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;">Collections:</div>
+                    <div id="itemCollectionsBtn" data-bb-type="button" data-bb-style="stretch" style="margin: 0;" onclick="things.showCollections()">Collections:</div>
                 </td>
             </tr>
         </table>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>thingiview</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            background: #242424;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+<script src="three.min.js?v=2"></script>
+<script src="Thingiview2.js?v=2"></script>
+<script src="NormalControls.js?v=2"></script>
+
+<div id="holder"></div>
+
+<script>
+    // parse opts
+    var argv = {};
+    argv['file'] = 'http://thingiverse-production.s3.amazonaws.com/threejs_json/d3/32/e4/4e/82/4fe9016dlight_switch_force_plate.js';
+
+    var thingiview = new Thingiview(document.getElementById("holder"));
+//    thingiview.resize(500, 500);
+
+    var self = thingiview;
+    loader = new THREE.JSONLoader(true);
+
+    loadCallback = function (geometry, materials)
+    {
+        self.addModel(geometry);
+    };
+    loader.load(argv['file'], loadCallback);
+
+    var animate = function ()
+    {
+        requestAnimationFrame(animate);
+        thingiview.render();
+    }
+    animate();
+
+</script>
+
+</body>
+</html>
+
+

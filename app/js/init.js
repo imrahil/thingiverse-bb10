@@ -11,20 +11,22 @@ config = {
     // Fires "before" styling is applied and "before" the screen is inserted in the DOM
     onscreenready: function (element, id, params)
     {
+        params = typeof params !== 'undefined' ? params : '';
+
         var screen = element.querySelector('[data-bb-type=screen]');
         // Set our styles
         screen.style['background-color'] = '#242424';
         screen.style.color = 'white';
         screen.style.fontSize = "2.5em";
 
-        if (id != 'info' && id != 'settings' && id != 'search' && id != 'viewer' && id != 'collection-things' && id != 'categories-things' && id != 'creator' && id != 'open-item')
+        if (id != 'info' && id != 'settings' && id != 'viewer')
         {
             screenTools.addTopMenu(screen);
+        }
 
-            if (id != 'item-view' && id != 'image-view')
-            {
-                screenTools.addActionBar(screen);
-            }
+        if ((id == 'featured' || id == 'popular' || id == 'newest' || id == 'collections' || id == 'categories' || id == 'tags') && params.type != 'subcategory' )
+        {
+            screenTools.addActionBar(screen);
         }
 
         switch (id) {
@@ -46,15 +48,23 @@ config = {
                 break;
             case 'collection-things':
                 screenTools.addBackBtn(screen);
-                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Collection things');
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', params.name);
                 break;
             case 'categories':
-                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Categories');
-                element.getElementById('tabCategories').setAttribute('data-bb-selected', 'true');
+                if (params.type == 'subcategory')
+                {
+                    element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Subcategory: ' + params.name);
+                    screenTools.addBackBtn(screen);
+                }
+                else
+                {
+                    element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Categories');
+                    element.getElementById('tabCategories').setAttribute('data-bb-selected', 'true');
+                }
                 break;
             case 'categories-things':
                 screenTools.addBackBtn(screen);
-                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Category things');
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', params.name);
                 break;
             case 'tags':
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Tags');

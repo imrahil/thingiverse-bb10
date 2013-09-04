@@ -35,10 +35,11 @@ var collections = {
                     item.setAttribute('data-bb-img', collection.thumbnail);
                     item.onbtnclick = function ()
                     {
-                        bb.pushScreen('view/thingsGridList.html', 'collection-things', {id: collection.id});
+                        bb.pushScreen('view/thingsGridList.html', 'collection-things', {id: collection.id, name: collection.name});
                     };
                     items.push(item);
                 });
+
                 document.getElementById('myList').refresh(items);
             })
             .fail(function ()

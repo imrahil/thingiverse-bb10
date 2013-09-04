@@ -113,7 +113,7 @@ var categories = {
 
                 item.onbtnclick = function ()
                 {
-                    bb.pushScreen('view/listView.html', 'categories', {url: category.url});
+                    bb.pushScreen('view/listView.html', 'categories', {url: category.url, name: category.name, type: 'subcategory'});
                 };
             }
             else
@@ -121,7 +121,7 @@ var categories = {
                 item.onbtnclick = function ()
                 {
                     var url = category.things_url.substr(category.things_url.indexOf('com/') + 4);
-                    bb.pushScreen('view/thingsGridList.html', 'categories-things', {url: url});
+                    bb.pushScreen('view/thingsGridList.html', 'categories-things', {url: url, name: category.name});
                 };
             }
 

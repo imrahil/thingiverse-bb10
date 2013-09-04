@@ -71,6 +71,7 @@ config = {
                 element.getElementById('tabTags').setAttribute('data-bb-selected', 'true');
                 break;
             case 'item-view':
+                params.item.name = typeof params.item.name !== 'undefined' ? params.item.name : '';
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', params.item.name);
                 break;
         }
@@ -115,6 +116,9 @@ config = {
             case 'settings':
                 break;
             case 'search':
+                break;
+            case 'open-item':
+                app.checkClipboard();
                 break;
         }
     }

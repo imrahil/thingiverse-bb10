@@ -6,10 +6,7 @@ var things = {
         console.log("Fetching thing details");
 
         var item = params.item;
-
-        document.getElementById("itemNameHolder").innerHTML = item.name;
-        document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
-        document.getElementById("creatorImageHolder").setAttribute("src", item.creator.thumbnail);
+        var noItemFlag = false;
 
         // ***************
         //     DETAILS
@@ -28,6 +25,13 @@ var things = {
         }
         else
         {
+            if (item.name)
+            {
+                document.getElementById("itemNameHolder").innerHTML = item.name;
+                document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
+                document.getElementById("creatorImageHolder").setAttribute("src", item.creator.thumbnail);
+            }
+
             var url = thingiverseOptions.apiUri + "things/" + item.id + '?access_token=' + window.accessToken;
             console.log("URL - details: " + url);
 
@@ -57,10 +61,10 @@ var things = {
                     }
                 })
 
-                .fail(function ()
+                .fail(function(jqxhr, textStatus, error)
                 {
-                    alert("Cannot fetch thing details! Try again later.");
-                })
+                    showError(error);
+                });
         }
 
         // ***************
@@ -106,9 +110,9 @@ var things = {
                     }
                 })
 
-                .fail(function ()
+                .fail(function(jqxhr, textStatus, error)
                 {
-                    alert("Cannot fetch thing images! Try again later.");
+                    showError(error);
                 });
         }
 
@@ -157,15 +161,21 @@ var things = {
                     }
                 })
 
-                .fail(function ()
+                .fail(function(jqxhr, textStatus, error)
                 {
-                    alert("Cannot fetch thing files! Try again later.");
+                    showError(error);
                 });
         }
 
         function fillDetails(item)
         {
             console.log("Filling item details");
+
+            document.getElementById('screenTitle').setCaption(item.name);
+
+            document.getElementById("itemNameHolder").innerHTML = item.name;
+            document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
+            document.getElementById("creatorImageHolder").setAttribute("src", item.creator.thumbnail);
 
             document.getElementById("itemAddedHolder").innerHTML = item.added.substr(0, 10);
             document.getElementById("itemModifiedHolder").innerHTML = item.modified.substr(0, 10);
@@ -251,6 +261,25 @@ var things = {
             });
 
             document.getElementById('fileList').refresh(fileItems);
+        }
+
+        function showError(errorMsg)
+        {
+            if (noItemFlag == false)
+            {
+                noItemFlag = true;
+
+                if (errorMsg == "Not Found")
+                {
+                    bbutils.showToast('Thing not exist!')
+                }
+                else
+                {
+                    bbutils.showToast('Couldn\'t load a thing!')
+                }
+
+                bb.popScreen();
+            }
         }
     },
 

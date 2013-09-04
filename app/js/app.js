@@ -61,18 +61,23 @@ var app = {
                 {
                     console.log("Fetching success");
 
-                    document.getElementById("loadingIndicator").hide();
+                    var screen = document.getElementById('gridListScreen');
 
-                    createGrid(data);
-
-                    if (data.length > 0)
+                    if (screen)
                     {
-                        // caching data to localStorage
-                        console.log("Saving cache to localStorage");
-                        localStorage.setItem(type, JSON.stringify(data));
+                        document.getElementById("loadingIndicator").hide();
 
-                        // flag for session cache - refresh data between app run
-                        window[type + 'Cached'] = true;
+                        createGrid(data);
+
+                        if (data.length > 0)
+                        {
+                            // caching data to localStorage
+                            console.log("Saving cache to localStorage");
+                            localStorage.setItem(type, JSON.stringify(data));
+
+                            // flag for session cache - refresh data between app run
+                            window[type + 'Cached'] = true;
+                        }
                     }
                 })
 
@@ -224,6 +229,68 @@ var app = {
             blackberry.invoke.invoke({
                 uri: "http://imrahil.github.io/thingiverse-bb10/"
             });
+        }
+    },
+
+    openThingChangeId: function()
+    {
+        console.log("Change thing id in text field");
+
+        var thingIdTxt = document.getElementById("thingIdTxt");
+
+        if (thingIdTxt.value != "")
+        {
+            document.getElementById("thingIdOpenBtn").enable();
+        }
+        else if (thingIdTxt.value == "")
+        {
+            document.getElementById("thingIdOpenBtn").disable();
+        }
+    },
+
+    openThingOpen: function()
+    {
+        console.log("Open thing");
+
+        var thingIdTxt = document.getElementById("thingIdTxt");
+
+        var item = {
+            id: thingIdTxt.value
+        };
+
+        bb.pushScreen('view/itemView.html', 'item-view', {item: item});
+    },
+
+    openThingPaste: function()
+    {
+        if (!inRipple)
+        {
+            console.log("Using clipboard");
+
+            var clipboardTxt = community.clipboard.getText();
+
+            if (clipboardTxt.indexOf("thing:") >= 0)
+            {
+                var parts = clipboardTxt.split(":");
+
+                var thingIdTxt = document.getElementById("thingIdTxt");
+                thingIdTxt.value = parts[parts.length - 1];
+
+                document.getElementById("thingIdOpenBtn").enable();
+            }
+        }
+    },
+
+    checkClipboard: function()
+    {
+        if (!inRipple)
+        {
+            var clipboardTxt = community.clipboard.getText();
+
+            if (clipboardTxt == "")
+            {
+                document.getElementById("thingIdPasteBtn").disabled();
+            }
         }
     }
 };

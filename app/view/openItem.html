@@ -1,6 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<div data-bb-type="screen" data-bb-effect="slide-down">
+<div data-bb-type="screen" data-bb-effect="fade">
     <div data-bb-type="title" data-bb-caption="Open item"></div>
+
+    <div data-bb-type="round-panel">
+        <div data-bb-type="panel-header">Open thing</div>
+        <div data-bb-type="row">
+            <input id="thingIdTxt" type="number" onkeyup="app.openThingChangeId()"/>
+        </div>
+        <div data-bb-type="row">
+            <div id="thingIdOpenBtn" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" onclick="app.openThingOpen()">Open</div>
+            <div id="thingIdPasteBtn" data-bb-type="button" data-bb-style="stretch" onclick="app.openThingPaste()">Paste from clipboard</div>
+        </div>
+    </div>
 
     <div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>

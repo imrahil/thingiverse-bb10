@@ -7,6 +7,8 @@ App icon and splash screen based on WebWorksWeather sample app from github - htt
 
 STL rendering - https://github.com/tbuser/thingiview.js
 
+Clipboard extension - https://github.com/anpho/BB10.WebWorks.Ext.Clipboard/
+
 Versions:
 * 0.4 - simple screens and data fetching
 * 0.3 - base STL loading

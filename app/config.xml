@@ -30,6 +30,8 @@
     <feature id="blackberry.ui.contextmenu"/>
     <feature id="blackberry.invoke" />
 
+    <feature id="community.clipboard" required="true" version="1.0.0.0"/>
+
     <rim:permissions>
         <rim:permit>access_shared</rim:permit>
     </rim:permissions>

@@ -78,7 +78,25 @@ var categories = {
         var items = [],
             item;
 
+        function predicatBy(prop)
+        {
+            return function (a, b)
+            {
+                if (a[prop] > b[prop])
+                {
+                    return 1;
+                }
+                else if (a[prop] < b[prop])
+                {
+                    return -1;
+                }
+                return 0;
+            }
+        }
+
         document.getElementById("loadingIndicator").hide();
+
+        categoriesList.sort(predicatBy("name"));
 
         $.each(categoriesList, function (i, category)
         {
@@ -111,6 +129,7 @@ var categories = {
 
             items.push(item);
         });
+
         document.getElementById('myList').refresh(items);
     }
 };

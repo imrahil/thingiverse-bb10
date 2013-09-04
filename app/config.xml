@@ -22,6 +22,7 @@
     <feature id="blackberry.app">
         <param name="orientation" value="portrait"/>
         <param name="backgroundColor" value="0xff242424" />
+        <param name="websecurity" value="disable"/>
     </feature>
     <feature id="blackberry.ui.cover"/>
     <feature id="blackberry.ui.dialog"/>

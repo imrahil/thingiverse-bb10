@@ -1,5 +1,6 @@
 var things = {
     item: "",
+
     getThingDetails: function (element, params)
     {
         console.log("Fetching thing details");
@@ -210,43 +211,46 @@ var things = {
         {
             console.log("Filling files list");
 
-            var items = [],
-                item;
+            var fileItems = [],
+                fileItem;
 
             document.getElementById("loadingIndicator").hide();
 
             $.each(data, function (i, file)
             {
-                item = document.createElement('div');
-                item.setAttribute('data-bb-type', 'item');
-                item.setAttribute('data-bb-title', file.name);
-                item.setAttribute('data-bb-img', file.thumbnail);
+                fileItem = document.createElement('div');
+                fileItem.setAttribute('data-bb-type', 'item');
+                fileItem.setAttribute('data-bb-title', file.name);
+                fileItem.setAttribute('data-bb-img', file.thumbnail);
 
                 if (file.threejs_url != "")
                 {
-                    item.onbtnclick = function ()
+                    fileItem.onbtnclick = function ()
                     {
-                        bb.pushScreen('view/viewer.html', 'viewer', {url: file.threejs_url});
+                        // FIXME
+//                        bb.pushScreen('view/viewer.html', 'viewer', {url: file.threejs_url});
+
+                        blackberry.invoke.invoke({
+                            uri: file.public_url
+                        });
                     };
                 }
                 else
                 {
                     if (!inRipple)
                     {
-                        blackberry.io.filetransfer.download(
-                            file.public_url,
-                            blackberry.io.sharedFolder + file.name,
-                            function (result) {
-                            },
-                            function (result) {
-                                alert("Download failed");
+                        fileItem.onbtnclick = function ()
+                        {
+                            blackberry.invoke.invoke({
+                                uri: file.public_url
                             });
+                        }
                     }
                 }
-                items.push(item);
+                fileItems.push(fileItem);
             });
 
-            document.getElementById('fileList').refresh(items);
+            document.getElementById('fileList').refresh(fileItems);
         }
     },
 

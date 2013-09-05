@@ -81,6 +81,12 @@ config = {
     ondomready: function (element, id, params)
     {
         switch (id) {
+            case 'start':
+                if (inRipple)
+                {
+                    document.getElementById("debugLoginBtn").show();
+                }
+                break;
             case 'featured':
                 app.getThings(element, "featured");
                 break;

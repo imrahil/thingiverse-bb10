@@ -2,9 +2,13 @@
 <div data-bb-type="screen" data-bb-effect="fade">
     <div data-bb-type="title" data-bb-caption="Welcome to Tviewer"></div>
 
-    <div style="height: 100%; margin-top: 200px;">
+    <div style="height: 100%; margin-top: 50px;">
+        <div style="width: 100%; text-align: center;">
+            <img src="images/coverQ.png" />
+        </div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="oAuth.connect()">Connect to Thingiverse</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="oAuth.prompt()">Code</div>
+        <div id="debugLoginBtn" data-bb-type="button" data-bb-style="stretch" onclick="oAuth.prompt()" style="display: none;">Code</div>
+        <p style="padding: 0 50px;">Due to restriction in Thingiverse API you have to login to your Thingiverse account and authorize our application.</p>
         <div data-bb-type="activity-indicator" id="oAuthIndicator" data-bb-size="large" style="margin:0 auto; display: none;"></div>
     </div>
 </div>

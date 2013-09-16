@@ -66,13 +66,13 @@ config = {
                 screenTools.addBackBtn(screen);
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', params.name);
                 break;
-            case 'tags':
-                element.getElementById('screenTitle').setAttribute('data-bb-caption', 'Tags');
-                element.getElementById('tabTags').setAttribute('data-bb-selected', 'true');
-                break;
             case 'item-view':
                 params.item.name = typeof params.item.name !== 'undefined' ? params.item.name : '';
                 element.getElementById('screenTitle').setAttribute('data-bb-caption', params.item.name);
+                break;
+            case 'creator':
+                params.creator.name = typeof params.creator.name !== 'undefined' ? params.creator.name : '';
+                element.getElementById('screenTitle').setAttribute('data-bb-caption', params.creator.name);
                 break;
         }
     },

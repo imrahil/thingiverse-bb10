@@ -38,7 +38,7 @@ var things = {
             $.getJSON(url)
                 .done(function (data)
                 {
-                    this.item = data;
+                    item = data;
                     var screen = document.getElementById('itemViewScreen');
 
                     if (screen)
@@ -176,6 +176,7 @@ var things = {
             document.getElementById("itemNameHolder").innerHTML = item.name;
             document.getElementById("itemCreatorHolder").innerHTML = item.creator.name;
             document.getElementById("creatorImageHolder").setAttribute("src", item.creator.thumbnail);
+            document.getElementById("creatorImageHolder").onclick = function() { things.showCreator() };
 
             document.getElementById("itemAddedHolder").innerHTML = item.added.substr(0, 10);
             document.getElementById("itemModifiedHolder").innerHTML = item.modified.substr(0, 10);
@@ -334,7 +335,7 @@ var things = {
     {
         console.log("Show creator details");
 
-        bb.pushScreen('view/creator.html', 'creator', {url: this.item.creator});
+        bb.pushScreen('view/creator.html', 'creator', {creator: this.item.creator});
     },
 
     showLikes: function()

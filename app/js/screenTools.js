@@ -54,9 +54,6 @@ var screenTools = {
         menuItem = screenTools.createMenuItem('tabCategories', 'images/icons/ic_entry.png', 'Categories', 'view/listView.html', 'categories');
         actionBar.appendChild(menuItem);
 
-        menuItem = screenTools.createMenuItem('tabTags', 'images/icons/ic_tags.png', 'Tags', 'view/thingsGridList.html', 'tags');
-        actionBar.appendChild(menuItem);
-
         menuItem = screenTools.createMenuItem('btnSearch', 'images/icons/ic_search.png', 'Search', 'view/search.html', 'search', 'button', false);
         actionBar.appendChild(menuItem);
 
